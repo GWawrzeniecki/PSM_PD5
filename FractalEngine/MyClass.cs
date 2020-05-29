@@ -5,6 +5,7 @@ namespace FractalEngine
     {
         public MyClass()
         {
+            //test
         }
     }
 }
