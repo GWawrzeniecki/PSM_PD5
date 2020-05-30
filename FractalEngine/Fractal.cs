@@ -9,9 +9,7 @@ namespace FractalEngine
 {
     public class Fractal
     {
-        private const string FirstRule = "F+[[X]-X]-F[-FX]+X";
-        //private const string FirstRule = "F[-X]+X";
-
+        private const string FirstRule = "F+[[X]-X]-F[-FX]+X";     
         private const string FirstRuleReplaceChar = "X";
         private const string SecondRule = "FF";
         private const string SecondRuleChar = "F";
@@ -75,8 +73,6 @@ namespace FractalEngine
                 arg.y += Math.Sin(arg.a);
                 return arg;
             }));
-
-          
         }
 
         public void GeneratePattern(int repeatAmount, string firstWord)
@@ -85,16 +81,11 @@ namespace FractalEngine
                 throw new ArgumentException(nameof(repeatAmount));
 
             FirstReplace(firstWord, out _pattern);
-           
+
             for (int i = 1; i < repeatAmount; i++)
             {
                 _pattern = _pattern.Replace(SecondRuleChar, SecondRule);
                 _pattern = _pattern.Replace(FirstRuleReplaceChar, FirstRule);
-                //test(ref _pattern);
-                //_pattern = _pattern.Replace("A", FirstRule);
-                //_pattern = _pattern.Replace("B", SecondRule);
-
-
             }
             Console.WriteLine(_pattern);
             _pattern = _pattern.Replace(AuxiliarySymbol.ToString(), "");
@@ -103,57 +94,39 @@ namespace FractalEngine
         private void FirstReplace(string firstWord, out string pattern)
         {
             pattern = firstWord.Replace(FirstRuleReplaceChar, FirstRule);
-
-            //pattern = pattern.Replace(SecondRuleChar, SecondRule);
         }
 
-        private void test(ref string pattern)
-        {
-            pattern = pattern.Replace(AuxiliarySymbol.ToString(), "A");
-            pattern = pattern.Replace(GoForwardOperation.ToString(), "B");
-        }
+
 
         public void GenerateCordinates()
         {
             _ = _pattern ?? throw new Exception("Generate patttern at first");
-           
+
             var operations = _pattern.ToCharArray();
 
             foreach (var operation in operations)
             {
                 var cord = _operations[operation](_cordinates[_cordinates.Count - 1]);
 
-                //if(!operation.Equals(PushStackOperation) && !operation.Equals(AuxiliarySymbol))
-                
-                _cordinates.Add(cord);
+                if (!operation.Equals(PushStackOperation))
+
+                    _cordinates.Add(cord);
             }
         }
 
-        public void ShowCordinatesX()
+        public void SaveCordinatesToFiles(string xPath, string yPath)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder xSB = new StringBuilder();
+            StringBuilder ySB = new StringBuilder();
             foreach (var cordinate in _cordinates)
-            {
-                //Console.WriteLine($"X: {cordinate.x} Y: {cordinate.y} A: {cordinate.a}");
-                //Console.WriteLine(cordinate.x.ToString().Replace('.',','));
-                //Console.WriteLine($"Y: {cordinate.y}");
-                sb.AppendLine(cordinate.x.ToString().Replace('.', ','));
+            {                
+                xSB.AppendLine(cordinate.x.ToString().Replace('.', ','));
+                ySB.AppendLine(cordinate.y.ToString().Replace('.', ','));
             }
-            File.WriteAllText(@"/Users/grzegorzwawrzeniecki/Public/untitled folder/x.txt", sb.ToString());
+            File.WriteAllText(xPath, xSB.ToString());
+            File.WriteAllText(yPath, ySB.ToString());
         }
 
-        public void ShowCordinatesY()
-        {
-            StringBuilder sb = new StringBuilder();
-            foreach (var cordinate in _cordinates)
-            {
-                //Console.WriteLine($"X: {cordinate.x} Y: {cordinate.y} A: {cordinate.a}");
-                //Console.WriteLine(cordinate.y.ToString().Replace('.', ','));
-                //Console.WriteLine($"Y: {cordinate.y}");
-                sb.AppendLine(cordinate.y.ToString().Replace('.', ','));
-            }
-            File.WriteAllText(@"/Users/grzegorzwawrzeniecki/Public/untitled folder/y.txt", sb.ToString());
-
-        }
+       
     }
 }
