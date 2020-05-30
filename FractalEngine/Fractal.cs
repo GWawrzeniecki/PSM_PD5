@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using FractalEngine.Extensions;
 using FractalEngine.Models;
 
@@ -8,6 +10,8 @@ namespace FractalEngine
     public class Fractal
     {
         private const string FirstRule = "F+[[X]-X]-F[-FX]+X";
+        //private const string FirstRule = "F[-X]+X";
+
         private const string FirstRuleReplaceChar = "X";
         private const string SecondRule = "FF";
         private const string SecondRuleChar = "F";
@@ -29,7 +33,7 @@ namespace FractalEngine
 
         public Fractal(double angleOfRotation, double alfaOnStart)
         {
-            _angleOfRotation = angleOfRotation.ToRadians();           
+            _angleOfRotation = angleOfRotation.ToRadians();
             _alfaOnStart = alfaOnStart;
             _xOnStart = 0.0;
             _yOnStart = 0.0;
@@ -72,11 +76,7 @@ namespace FractalEngine
                 return arg;
             }));
 
-            _operations.Add(AuxiliarySymbol, new Func<Cordinate, Cordinate>((Cordinate arg) =>
-            {
-                return arg;
-            }));
-
+          
         }
 
         public void GeneratePattern(int repeatAmount, string firstWord)
@@ -85,52 +85,75 @@ namespace FractalEngine
                 throw new ArgumentException(nameof(repeatAmount));
 
             FirstReplace(firstWord, out _pattern);
+           
             for (int i = 1; i < repeatAmount; i++)
             {
                 _pattern = _pattern.Replace(SecondRuleChar, SecondRule);
                 _pattern = _pattern.Replace(FirstRuleReplaceChar, FirstRule);
-            }
+                //test(ref _pattern);
+                //_pattern = _pattern.Replace("A", FirstRule);
+                //_pattern = _pattern.Replace("B", SecondRule);
 
+
+            }
             Console.WriteLine(_pattern);
+            _pattern = _pattern.Replace(AuxiliarySymbol.ToString(), "");
         }
 
         private void FirstReplace(string firstWord, out string pattern)
         {
-            pattern = firstWord.Replace(SecondRuleChar, SecondRule);
-            pattern = pattern.Replace(FirstRuleReplaceChar, FirstRule);
+            pattern = firstWord.Replace(FirstRuleReplaceChar, FirstRule);
+
+            //pattern = pattern.Replace(SecondRuleChar, SecondRule);
+        }
+
+        private void test(ref string pattern)
+        {
+            pattern = pattern.Replace(AuxiliarySymbol.ToString(), "A");
+            pattern = pattern.Replace(GoForwardOperation.ToString(), "B");
         }
 
         public void GenerateCordinates()
         {
             _ = _pattern ?? throw new Exception("Generate patttern at first");
-
+           
             var operations = _pattern.ToCharArray();
+
             foreach (var operation in operations)
             {
                 var cord = _operations[operation](_cordinates[_cordinates.Count - 1]);
+
+                //if(!operation.Equals(PushStackOperation) && !operation.Equals(AuxiliarySymbol))
+                
                 _cordinates.Add(cord);
             }
         }
 
-        public void ShowCordinates()
+        public void ShowCordinatesX()
         {
+            StringBuilder sb = new StringBuilder();
             foreach (var cordinate in _cordinates)
             {
                 //Console.WriteLine($"X: {cordinate.x} Y: {cordinate.y} A: {cordinate.a}");
-                Console.WriteLine($" {cordinate.x}");
+                //Console.WriteLine(cordinate.x.ToString().Replace('.',','));
                 //Console.WriteLine($"Y: {cordinate.y}");
-
+                sb.AppendLine(cordinate.x.ToString().Replace('.', ','));
             }
-
-            foreach (var cordinate in _cordinates)
-            {
-                //Console.WriteLine($"X: {cordinate.x} Y: {cordinate.y} A: {cordinate.a}");
-                //Console.WriteLine($"X: {cordinate.x}");
-                Console.WriteLine($"{cordinate.y}");
-
-            }
+            File.WriteAllText(@"/Users/grzegorzwawrzeniecki/Public/untitled folder/x.txt", sb.ToString());
         }
 
+        public void ShowCordinatesY()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var cordinate in _cordinates)
+            {
+                //Console.WriteLine($"X: {cordinate.x} Y: {cordinate.y} A: {cordinate.a}");
+                //Console.WriteLine(cordinate.y.ToString().Replace('.', ','));
+                //Console.WriteLine($"Y: {cordinate.y}");
+                sb.AppendLine(cordinate.y.ToString().Replace('.', ','));
+            }
+            File.WriteAllText(@"/Users/grzegorzwawrzeniecki/Public/untitled folder/y.txt", sb.ToString());
 
+        }
     }
 }
