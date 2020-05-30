@@ -9,7 +9,7 @@ namespace FractalEngine
 {
     public class Fractal
     {
-        private const string FirstRule = "F+[[X]-X]-F[-FX]+X";     
+        private const string FirstRule = "F+[[X]-X]-F[-FX]+X";
         private const string FirstRuleReplaceChar = "X";
         private const string SecondRule = "FF";
         private const string SecondRuleChar = "F";
@@ -120,14 +120,21 @@ namespace FractalEngine
             StringBuilder xSB = new StringBuilder();
             StringBuilder ySB = new StringBuilder();
             foreach (var cordinate in _cordinates)
-            {                
+            {
                 xSB.AppendLine(cordinate.x.ToString().Replace('.', ','));
                 ySB.AppendLine(cordinate.y.ToString().Replace('.', ','));
             }
-            File.WriteAllText(xPath, xSB.ToString());
-            File.WriteAllText(yPath, ySB.ToString());
+            try
+            {
+                File.WriteAllText(xPath, xSB.ToString());
+                File.WriteAllText(yPath, ySB.ToString());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Could not write cordinates to files. {Environment.NewLine}Error: {e.Message}");
+            }
         }
 
-       
+
     }
 }
