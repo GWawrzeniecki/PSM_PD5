@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FractalEngine", "FractalEngine\FractalEngine.csproj", "{75F89433-4CF6-45D1-B974-DC8658725957}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{3197AD42-EE6E-4B6E-861B-08FCA6E0BCAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,5 +15,9 @@ Global
 		{75F89433-4CF6-45D1-B974-DC8658725957}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75F89433-4CF6-45D1-B974-DC8658725957}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75F89433-4CF6-45D1-B974-DC8658725957}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3197AD42-EE6E-4B6E-861B-08FCA6E0BCAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3197AD42-EE6E-4B6E-861B-08FCA6E0BCAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3197AD42-EE6E-4B6E-861B-08FCA6E0BCAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3197AD42-EE6E-4B6E-861B-08FCA6E0BCAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
