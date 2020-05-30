@@ -31,6 +31,7 @@ namespace FractalEngine
 
         public Fractal(double angleOfRotation, double alfaOnStart)
         {
+
             _angleOfRotation = angleOfRotation.ToRadians();
             _alfaOnStart = alfaOnStart;
             _xOnStart = 0.0;
